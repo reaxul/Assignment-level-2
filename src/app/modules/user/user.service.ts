@@ -54,6 +54,34 @@ const createOrder = async (userId: number, orderData: Order) => {
     return result;
   };
 
+  const getTotalPrice = async (userId: number) => {
+    const result = await UserModel.aggregate([
+      {
+        $match: {
+          userId: userId,
+        },
+      },
+      { $unwind: "$orders" },
+      {
+        $group: {
+          _id: null,
+          totalPrice: {
+            $sum: { $multiply: ["$orders.price", "$orders.quantity"] },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalPrice: { $round: ["$totalPrice", 2] },
+        },
+      },
+    ]);
+  
+    if (result.length > 0) return result[0];
+    else return (result[0] = { totalPrice: 0 });
+  };
+
 export const userService = {
     createUser,
     getAllUsers,
@@ -62,4 +90,5 @@ export const userService = {
     deleteUser,
     createOrder,
     getAllOrders,
+    getTotalPrice,
 }
