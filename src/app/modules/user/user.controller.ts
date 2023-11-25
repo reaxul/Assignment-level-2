@@ -180,6 +180,40 @@ const addProductInOrder = async (req: Request, res: Response) => {
     }
 };
 
+const getOrdersForUser = async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const user = await userService.getSingleUser(userId);
+  
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found',
+          error: {
+            code: 404,
+            description: 'User not found!',
+          },
+        });
+      }
+  
+      const orders = user.orders || [];
+  
+      res.status(200).json({
+        success: true,
+        message: 'Orders fetched successfully!',
+        data: {
+          orders: orders,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Something went wrong!',
+        error: error,
+      });
+    }
+  };
+
 
 export const UserController = {
     createUser,
@@ -188,4 +222,5 @@ export const UserController = {
     updateUser,
     deleteUser,
     addProductInOrder,
+    getOrdersForUser,
 }

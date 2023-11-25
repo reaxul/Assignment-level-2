@@ -49,6 +49,11 @@ const createOrder = async (userId: number, orderData: Order) => {
     return result;
   };
 
+  const getAllOrders = async (userId: number) => {
+    const result = await UserModel.findOne({ userId }).select({ orders: 1 });
+    return result;
+  };
+
 export const userService = {
     createUser,
     getAllUsers,
@@ -56,4 +61,5 @@ export const userService = {
     updateUser,
     deleteUser,
     createOrder,
+    getAllOrders,
 }
