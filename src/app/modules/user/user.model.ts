@@ -5,6 +5,7 @@ const userSchema = new Schema<User>({
     userId: {
         type: Number,
         required: true,
+        unique: true,
     },
     username: {
         type: String,
@@ -31,6 +32,7 @@ const userSchema = new Schema<User>({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     isActive: {
         type: Boolean,

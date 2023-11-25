@@ -22,11 +22,19 @@ const getAllUsers = async () => {
 const getSingleUser = async (userId: number) => {
     const result = await UserModel.findOne({ userId });
     return result;
-  };
+};
 
+const updateUser = async (userId: number, updateData: Partial<User>) => {
+    const result = await UserModel.findOneAndUpdate({ userId }, updateData, {
+      new: true,
+      runValidators: true,
+    });
+    return result;
+  };
 
 export const userService = {
     createUser,
     getAllUsers,
     getSingleUser,
+    updateUser,
 }
