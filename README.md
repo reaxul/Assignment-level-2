@@ -11,7 +11,7 @@ List key features of your project. For example:
 - get total price
 
 ## Installation
-nmp i
+npm i
 
 
 ##start the server
