@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { User } from './user.interface';
+import bcrypt from "bcrypt";
 
 const userSchema = new Schema<User>({
     userId: {
@@ -64,5 +65,16 @@ const userSchema = new Schema<User>({
         },
       ],
 })
+
+userSchema.pre("save", function (next) {
+    const hashPassword = bcrypt.hashSync(this.password, 10);
+    this.password = hashPassword;
+    next();
+  });
+  userSchema.set("toJSON", {
+    transform: function (doc, ret) {
+      delete ret.password;
+    },
+  });
 
 export const UserModel = model<User>('User', userSchema);
