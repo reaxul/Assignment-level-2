@@ -13,6 +13,9 @@ List key features of your project. For example:
 ## Installation
 npm i
 
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
 
 ##start the server
 npm run dev
